@@ -24,7 +24,7 @@ const Login = () => {
           <p className='text-sm mt-10'>ブランドオークションサイト</p>
           <div className='mt-1 p-2 rounded-2xl opacity-50 bg-gray-500 border border-2 border-amber-700 pb-[40px] pt-[10px]'>
             <h1 className='text-lg font-semibold text-white'>アイボリー</h1>
-            <h1 className='text-lg font-semibold text-white'>BRAND LOUNGE</h1>
+            <h1 className='text-lg font-semibold text-white'>BRANDLOUNGE</h1>
           </div>
         </div>
         <div className='text-center mb-4'>

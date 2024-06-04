@@ -22,7 +22,7 @@ export default function Input({
       <input
         id={id}
         type={type}
-        defaultValue={value}
+        value={value}
         placeholder={placeholder}
         onChange={onChange}
         name={name}

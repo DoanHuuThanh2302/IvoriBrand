@@ -1,18 +1,14 @@
-import { IconsAuction, IconsBack, IconsUser } from '../../assets/icons/icons'
-import Button from '../../component/button/button'
-import PaginatedItems from '../../component/paginate/paging'
-import Select from '../../component/select/select'
+import { IconsAuction, IconsBack, IconsUser } from '../../../assets/icons/icons'
+import Button from '../../../component/button/button'
+import PaginatedItems from '../../../component/paginate/paging'
+import Select from '../../../component/select/select'
 
-const ProductList = () => {
+const AdminProductList = () => {
   return (
-    <div className='bg-pink-50'>
-      <div
-        className='min-h-screen flex flex-col items-center p-4'
-        style={{ background: 'linear-gradient(to right, #fcefe7, #ffe7d6)' }}
-      >
+    <div className=''>
+      <div className='min-h-screen flex flex-col items-center p-4'>
         <div className='w-full !text-start mb-[50px]'>
-          <span className='font-semibold text-[13px] flex items-center mt-[30px] w-[130px] border-b border-b-2 border-black'>
-            <IconsAuction width='25px' height='25px' />
+          <span className='font-semibold text-[13px] flex items-center mt-[30px] w-[100px] border-b border-b-2 border-black'>
             <p className='mt-2'>開催中商品一覧</p>
           </span>
         </div>
@@ -69,18 +65,30 @@ const ProductList = () => {
                   />
                 </div>
               </div>
+              <div className='flex flex-col justify-end h-full'>
+                <Button
+                  text='編集'
+                  className='text-nowrap !bg-white !text-black !border-black !py-0.5 !px-2 ml-1'
+                />
+              </div>
             </div>
           ))}
         </div>
         <div className='w-full mb-[80px]'>
           <PaginatedItems totalPages={4} />
         </div>
-        <div className='fixed bottom-[20px]'>
-          <button className='mt-4 bg-yellow-400 py-2 pl-1 pr-5 rounded-full flex justify-center text-[13px] items-center'>
+        <div className='flex justify-between w-full fixed bottom-[20px] right-0 px-3'>
+          <button className='mt-4 bg-yellow-400 py-2 pl-1 pr-5 rounded-full flex text-[13px] items-center mr-1 w-1/2'>
             <div className='bg-white rounded-full px-1 py-1'>
               <IconsBack />
             </div>
-            <p className='ml-4'>TOPページに戻る</p>
+            <p className='ml-4'>開催中一覧へ</p>
+          </button>
+          <button className='mt-4 bg-yellow-400 py-2 pl-1 pr-5 rounded-full flex text-[13px] items-center ml-1 w-1/2'>
+            <div className='bg-white rounded-full px-1 py-1'>
+              <IconsBack />
+            </div>
+            <p className='ml-4 text-nowrap'>商品登録画面へ</p>
           </button>
         </div>
       </div>
@@ -88,4 +96,4 @@ const ProductList = () => {
   )
 }
 
-export default ProductList
+export default AdminProductList

@@ -40,7 +40,7 @@ const Select: React.FC<SelectProps> = ({
         defaultValue={value}
         name={name}
         onChange={handleChange}
-        className={`!h-[24px] border rounded-[3px] border-gray-200 bg-white text-[12px] ${className} ${
+        className={`border rounded-[3px] border-gray-200 bg-white text-[12px] ${className} ${
           label ? 'mt-2' : ''
         } `}
       >

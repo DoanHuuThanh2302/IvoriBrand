@@ -12,6 +12,11 @@ import ChangeUserInformation from './page/change-information/user-information'
 import ChangeLoginInformation from './page/change-information/login-information'
 import ChangeShippingAddressRegistration from './page/change-information/shipping-address-registration'
 import ProductList from './page/product-list'
+import ProductPage from './page/product-page'
+import ProductRegister from './page/admin/product-register'
+import Setting from './page/admin/setting'
+import AdminProductList from './page/admin/product-list'
+import AdminProductPage from './page/admin/product-page'
 
 function App() {
   useEffect(() => {
@@ -47,6 +52,11 @@ function App() {
             element={<ChangeShippingAddressRegistration />}
           />
           <Route path='/product-list' element={<ProductList />} />
+          <Route path='/product-page' element={<ProductPage />} />
+          <Route path='/admin/product-register' element={<ProductRegister />} />
+          <Route path='/admin/setting' element={<Setting />} />
+          <Route path='/admin/product-list' element={<AdminProductList />} />
+          <Route path='/admin/product-page' element={<AdminProductPage />} />
         </Routes>
       </main>
     </div>
