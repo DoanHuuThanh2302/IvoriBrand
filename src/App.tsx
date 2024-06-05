@@ -4,7 +4,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import RegistrationInformationForm from './page/session/registration/information-registration'
 import Login from './page/session/login/login'
-import Dashboard from './page/dashboard'
+import Home from './page/home'
 import BidHistory from './page/bid-history'
 import MyPage from './page/my-page'
 import ChangeInformation from './page/change-information'
@@ -17,6 +17,7 @@ import ProductRegister from './page/admin/product-register'
 import Setting from './page/admin/setting'
 import AdminProductList from './page/admin/product-list'
 import AdminProductPage from './page/admin/product-page'
+import Dashboard from './page/dashboard'
 
 function App() {
   useEffect(() => {
@@ -29,7 +30,8 @@ function App() {
     <div className='App'>
       <main>
         <Routes>
-          <Route path='/' element={<Dashboard />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/register' element={<RegistrationInformationForm />} />
           <Route path='/login' element={<Login />} />
           <Route path='/bid-history' element={<BidHistory />} />
