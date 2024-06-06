@@ -1,7 +1,26 @@
 import image from '../../assets/image/4.png'
 import { IconsAuction, IconsUser, IconsWarning } from '../../assets/icons/icons'
-
+import AuthenticaService from '../../services/authenticate.service'
+import { useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom'
 const Home = () => {
+  const authenticate = new AuthenticaService()
+  const [, , removeUser] = useCookies(['user'])
+  const [, , removeToken] = useCookies(['token'])
+  const navigate = useNavigate()
+  const handleLogut = () => {
+    authenticate
+      .logout()
+      .then((res) => {
+        if (res.status === 200) {
+          removeUser('user')
+          removeToken('token')
+        }
+      })
+      .catch((error) => {
+        console.error('Error logging out:', error)
+      })
+  }
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
       <div
@@ -39,12 +58,15 @@ const Home = () => {
             <IconsAuction />
             <p className='text-[12px] mt-3'>開催中</p>
           </div>
-          <div className='border px-4 border-amber-700 rounded-lg pt-[3px] pb-2 text-center bg-[#ddc8c3]'>
+          <div
+            onClick={() => navigate('/my-page')}
+            className='border px-4 border-amber-700 rounded-lg pt-[3px] pb-2 text-center bg-[#ddc8c3]'
+          >
             <IconsUser />
             <p className='text-[12px] mt-3'>マイページ</p>
           </div>
           <div className='border px-2.5 border-amber-700 rounded-lg pt-[3px] pb-2 text-center bg-[#ddc8c3]'>
-            <div className='flex justify-center'>
+            <div onClick={() => handleLogut()} className='flex justify-center'>
               <IconsWarning />
             </div>
             <p className='text-[12px] mt-3'>ルール・会則</p>

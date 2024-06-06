@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Button from '../../../component/button/button'
 import Input from '../../../component/input/input'
 import { IconsFile } from '../../../assets/icons/icons'
@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import AuthenticaService from '../../../services/authenticate.service'
 import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 export default function RegistrationInformationForm() {
   const [showUserInformation, setShowUserInformation] = useState(true)
@@ -17,7 +18,8 @@ export default function RegistrationInformationForm() {
   const [dataUser, setDataUser] = useState<any>()
   const authenticate = new AuthenticaService()
   const navigate = useNavigate()
-  console.log(dataUser)
+  const [, setUser] = useCookies(['user'])
+  const [, setToken] = useCookies(['token'])
 
   const [showShippingAddressRegistration, setShowShippingAddressRegistration] =
     useState(false)
@@ -44,18 +46,18 @@ export default function RegistrationInformationForm() {
   })
 
   const [uploads, setUploads] = useState({
-    upload1: false,
-    upload2: false,
-    upload3: false,
-    upload4: false,
+    business_license_front: false,
+    business_license_back: false,
+    document_front: false,
+    document_back: false,
   })
 
   const onSubmit = (data: any) => {
     if (
-      uploads.upload1 &&
-      uploads.upload2 &&
-      uploads.upload3 &&
-      uploads.upload4
+      uploads.business_license_front &&
+      uploads.business_license_back &&
+      uploads.document_front &&
+      uploads.document_back
     ) {
       handleShowShippingAddressRegistration()
       setDataUser(data)
@@ -84,14 +86,18 @@ export default function RegistrationInformationForm() {
   })
 
   const onSubmitLoginInformation = async (data: any) => {
-    setDataUser({ ...dataUser, ...data })
     try {
-      authenticate.register(dataUser).then((res: any) => {
-        if (res.data.status === 200) {
-          navigate('/login')
-        } else if (res.data.status === 404) {
-        }
-      })
+      setDataUser({ ...dataUser, ...data })
+
+      console.log(dataUser)
+      const response = await authenticate.register(dataUser)
+
+      if (response.data.status === 200) {
+        setToken('token', response.headers['authorization'].split(' ')[1])
+        setUser('user', response.data.user)
+        navigate('/')
+      } else if (response.data.status === 404) {
+      }
     } catch (error) {
       console.error(error)
     }
@@ -258,7 +264,7 @@ export default function RegistrationInformationForm() {
                 <div className='flex justify-between mx-[50px]'>
                   <div className='space-y-1 text-center'>
                     <div className='flex text-sm text-gray-600'>
-                      <label htmlFor='file-upload1' className=''>
+                      <label htmlFor='file-business_license_front' className=''>
                         <div id='svg1'>
                           <IconsFile />
                         </div>
@@ -267,14 +273,14 @@ export default function RegistrationInformationForm() {
                           alt='Preview'
                           style={{
                             maxWidth: '100px',
-                            maxHeight: '100px',
+                            maxHeight: '50px',
                             display: 'none',
                             marginTop: '8px',
                           }}
                         />
                       </label>
                       <Input
-                        id='file-upload1'
+                        id='file-business_license_front'
                         type='file'
                         className='hidden'
                         onChange={(e: any) =>
@@ -282,7 +288,7 @@ export default function RegistrationInformationForm() {
                             e,
                             'img-preview1',
                             'svg1',
-                            'upload1'
+                            'business_license_front'
                           )
                         }
                       />
@@ -291,7 +297,7 @@ export default function RegistrationInformationForm() {
 
                   <div className='space-y-1 text-center'>
                     <div className='flex text-sm text-gray-600'>
-                      <label htmlFor='file-upload2' className=''>
+                      <label htmlFor='file-business_license_back' className=''>
                         <div id='svg2'>
                           <IconsFile />
                         </div>
@@ -300,14 +306,14 @@ export default function RegistrationInformationForm() {
                           alt='Preview'
                           style={{
                             maxWidth: '100px',
-                            maxHeight: '100px',
+                            maxHeight: '50px',
                             display: 'none',
                             marginTop: '8px',
                           }}
                         />
                       </label>
                       <Input
-                        id='file-upload2'
+                        id='file-business_license_back'
                         type='file'
                         className='hidden'
                         onChange={(e: any) =>
@@ -315,7 +321,7 @@ export default function RegistrationInformationForm() {
                             e,
                             'img-preview2',
                             'svg2',
-                            'upload2'
+                            'business_license_back'
                           )
                         }
                       />
@@ -335,7 +341,7 @@ export default function RegistrationInformationForm() {
                 <div className='flex justify-between mx-[50px]'>
                   <div className='space-y-1 text-center'>
                     <div className='flex text-sm text-gray-600'>
-                      <label htmlFor='file-upload3' className=''>
+                      <label htmlFor='file-document_front' className=''>
                         <div id='svg3'>
                           <IconsFile />
                         </div>
@@ -344,14 +350,14 @@ export default function RegistrationInformationForm() {
                           alt='Preview'
                           style={{
                             maxWidth: '100px',
-                            maxHeight: '100px',
+                            maxHeight: '50px',
                             display: 'none',
                             marginTop: '8px',
                           }}
                         />
                       </label>
                       <Input
-                        id='file-upload3'
+                        id='file-document_front'
                         type='file'
                         className='hidden'
                         onChange={(e: any) =>
@@ -359,7 +365,7 @@ export default function RegistrationInformationForm() {
                             e,
                             'img-preview3',
                             'svg3',
-                            'upload3'
+                            'document_front'
                           )
                         }
                       />
@@ -368,7 +374,7 @@ export default function RegistrationInformationForm() {
 
                   <div className='space-y-1 text-center'>
                     <div className='flex text-sm text-gray-600'>
-                      <label htmlFor='file-upload4' className=''>
+                      <label htmlFor='file-document_back' className=''>
                         <div id='svg4'>
                           <IconsFile />
                         </div>
@@ -377,14 +383,14 @@ export default function RegistrationInformationForm() {
                           alt='Preview'
                           style={{
                             maxWidth: '100px',
-                            maxHeight: '100px',
+                            maxHeight: '50px',
                             display: 'none',
                             marginTop: '8px',
                           }}
                         />
                       </label>
                       <Input
-                        id='file-upload4'
+                        id='file-document_back'
                         type='file'
                         className='hidden'
                         onChange={(e: any) =>
@@ -392,7 +398,7 @@ export default function RegistrationInformationForm() {
                             e,
                             'img-preview4',
                             'svg4',
-                            'upload4'
+                            'document_back'
                           )
                         }
                       />

@@ -4,9 +4,9 @@ class AuthenticaService {
   login(data: any) {
     const formData = new FormData()
 
-    formData.append('user[email]', data.email)
+    formData.append('user[id_login]', data.id_login)
     formData.append('user[password]', data.password)
-    return http.post(`/api/v1/user/login`, formData, {
+    return http.post(`/users/sign_in`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -15,7 +15,7 @@ class AuthenticaService {
 
   register(data: any) {
     return http.post(
-      `/api/v1/user`,
+      `/users`,
       { user: data },
       {
         headers: {
@@ -26,7 +26,7 @@ class AuthenticaService {
   }
 
   logout() {
-    return http.delete(`/api/v1/user/logout`)
+    return http.delete(`/users/sign_out`)
   }
 }
 

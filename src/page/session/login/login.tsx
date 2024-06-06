@@ -1,8 +1,43 @@
 import Buttom from '../../../component/button/button'
 import Input from '../../../component/input/input'
 import image from '../../../assets/image/4.png'
+import AuthenticaService from '../../../services/authenticate.service'
+import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { login } from '../../../validation/login'
+import InputForm from '../../../component/input/input-form'
 
 const Login = () => {
+  const authenticate = new AuthenticaService()
+  const navigate = useNavigate()
+  const [, setUser] = useCookies(['user'])
+  const [, setToken] = useCookies(['token'])
+
+  const {
+    register: registerLogin,
+    handleSubmit: handleLogin,
+    formState: { errors: ErrorLogin },
+  } = useForm({
+    resolver: yupResolver(login),
+  })
+
+  const onSubmitLogin = async (data: any) => {
+    try {
+      authenticate.login(data).then((res: any) => {
+        if (res.data.status === 200) {
+          setToken('token', res.headers['authorization'].split(' ')[1])
+          setUser('user', res.data.user)
+          navigate('/')
+        } else if (res.data.status === 404) {
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
       <div
@@ -30,23 +65,27 @@ const Login = () => {
         <div className='text-center mb-4'>
           <p className='text-sm'>ログインしてください</p>
         </div>
-        <form>
+        <form onSubmit={handleLogin(onSubmitLogin)}>
           <div className='mb-4'>
             <label className='block text-sm font-medium text-gray-700'>
               ログインID
             </label>
-            <Input
+            <InputForm
               type='text'
               className='mt-1 px-3 py-2 border border-gray-300 rounded-md w-full'
+              register={registerLogin('id_login')}
+              error={ErrorLogin.id_login?.message}
             />
           </div>
           <div className='mb-6'>
             <label className='block text-sm font-medium text-gray-700'>
               パスワード
             </label>
-            <Input
+            <InputForm
               type='password'
               className='mt-1 px-3 py-2 border border-gray-300 rounded-md w-full'
+              register={registerLogin('password')}
+              error={ErrorLogin.password?.message}
             />
           </div>
           <div className='flex justify-center'>
